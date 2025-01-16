@@ -1,121 +1,76 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';              // Import Flutter material package for UI components
+import 'product_details_screen.dart';               // Import for ProductDetailsScreen
+import 'vehicle_details_screen.dart';               // Import for VehicleDetailsScreen
+import 'add_product_screen.dart';                   // Import for AddProductScreen
+import '../screens/widgets/shock_device_card.dart';         // Import for ShockDeviceCard (custom card widget for displaying shock devices)
+import '../screens/widgets/app_bar_widget.dart';            // Import for AppBarWidget (custom app bar widget)
+import '../screens/widgets/drawer_menu.dart';                // Import for DrawerMenu (custom navigation drawer)
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
 
+/// HomeScreen widget is the main dashboard where users can view and navigate to their products and settings.
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        centerTitle: true,
-        backgroundColor: Colors.blue,
-      ),
-      body: SingleChildScrollView(
+      appBar: AppBarWidget(),  // Custom AppBar for consistency across the app
+      drawer: DrawerMenu(),  // Custom Drawer for navigation
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),  // Padding for the main body of the screen
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Welcome Section
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              color: Colors.blue[100],
-              child: Row(
+            // Title for the product section
+            Text(
+              "My Products",
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            // Expanded ListView to show all product cards
+            Expanded(
+              child: ListView(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: const AssetImage('assets/images/app_logo.png'),
-                    radius: 30.0,
+                  // First ShockDeviceCard for "Trophy Truck Front Shock"
+                  ShockDeviceCard(
+                    productName: "Trophy Truck Front Shock",
+                    status: "Connected",  // Status of the shock device
+                    onTap: () {
+                      // Navigate to the ProductDetailsScreen when tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProductDetailsScreen(productId: "front_shock"),
+                        ),
+                      );
+                    },
                   ),
-                  const SizedBox(width: 16.0),
-                  const Text(
-                    'Welcome, User!',
-                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  // Second ShockDeviceCard for "Class 10 Rear Shock"
+                  ShockDeviceCard(
+                    productName: "Class 10 Rear Shock",
+                    status: "Not Connected",  // Status of the shock device
+                    onTap: () {
+                      // Navigate to the VehicleDetailsScreen when tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              VehicleDetailsScreen(productId: "rear_shock"),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16.0),
-
-            // Feature Buttons
-            GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              padding: const EdgeInsets.all(8.0),
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-              children: [
-                _buildDashboardCard(
+            // Button to navigate to the AddProductScreen
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
                   context,
-                  title: 'Products',
-                  icon: Icons.shopping_cart,
-                  color: Colors.green,
-                  onTap: () {
-                    Navigator.pushNamed(context, '/shop');
-                  },
-                ),
-                _buildDashboardCard(
-                  context,
-                  title: 'Vehicles',
-                  icon: Icons.directions_car,
-                  color: Colors.orange,
-                  onTap: () {
-                    Navigator.pushNamed(context, '/vehicle');
-                  },
-                ),
-                _buildDashboardCard(
-                  context,
-                  title: 'Settings',
-                  icon: Icons.settings,
-                  color: Colors.blueGrey,
-                  onTap: () {
-                    Navigator.pushNamed(context, '/profile_settings');
-                  },
-                ),
-                _buildDashboardCard(
-                  context,
-                  title: 'Support',
-                  icon: Icons.help_outline,
-                  color: Colors.purple,
-                  onTap: () {
-                    Navigator.pushNamed(context, '/support');
-                  },
-                ),
-              ],
+                  MaterialPageRoute(builder: (context) => AddProductScreen()),
+                );
+              },
+              child: Text("Add Product"),  // Text for the button
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDashboardCard(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        color: color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 40.0, color: Colors.white),
-              const SizedBox(height: 8.0),
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

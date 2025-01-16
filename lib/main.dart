@@ -1,125 +1,178 @@
 import 'package:flutter/material.dart';
+import 'screens/dashboard/home_screen.dart';  // Correct path for HomeScreen
+import 'screens/dashboard/add_product_screen.dart';  // Correct path for AddProductScreen
+import 'screens/dashboard/product_details_screen.dart';  // Correct path for ProductDetailsScreen
+import 'screens/dashboard/vehicle_details_screen.dart';  // Correct path for VehicleDetailsScreen
+import 'widgets/app_bar_widget.dart';  // Correct path for AppBarWidget
+import 'screens/widgets/drawer_menu.dart';  // Correct path for DrawerMenu
 
+/// The entry point of the application, where the app is initialized and run.
+/// The main function runs the app and defines the initial route for the app.
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
+/// This is the root widget of the application. It sets up the MaterialApp,
+/// routes, and some basic configuration like theme, etc.
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Rev Racing', // App title
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.orange,  // App's primary color theme
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',  // The initial route when the app is launched
+      routes: {
+        '/': (context) => HomeScreen(),  // Home screen when the app starts
+        '/addProduct': (context) => AddProductScreen(),  // Route for adding a product
+        '/productDetails': (context) => ProductDetailsScreen(productId: "default"),  // Route for viewing product details
+        '/vehicleDetails': (context) => VehicleDetailsScreen(productId: "default"),  // Route for vehicle details
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+/// This is the HomeScreen which is the main screen that users interact with.
+/// It shows a list of devices or shock settings and allows navigation to details.
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      appBar: AppBarWidget(),  // Use the custom app bar widget for consistency
+      drawer: DrawerMenu(),  // Use the custom drawer menu for consistent navigation
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          children: [
+            Text("My Products", style: Theme.of(context).textTheme.headlineMedium),  // Title for the section
+            Expanded(
+              child: ListView(
+                children: [
+                  // ShockDeviceCard is used to display each product. You can add more cards dynamically.
+                  ShockDeviceCard(
+                    productName: "Trophy Truck Front Shock",  // Name of the product
+                    status: "Connected",  // Status of the product (could be "Connected" or "Not Connected")
+                    onTap: () {
+                      // Navigates to the ProductDetailsScreen when tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProductDetailsScreen(productId: "front_shock")),
+                      );
+                    },
+                  ),
+                  ShockDeviceCard(
+                    productName: "Class 10 Rear Shock",  // Another shock product
+                    status: "Not Connected",
+                    onTap: () {
+                      // Navigates to VehicleDetailsScreen when tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => VehicleDetailsScreen(productId: "rear_shock")),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            // Button to navigate to AddProductScreen to add a new product
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddProductScreen()),
+                );
+              },
+              child: Text("Add Product"),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+/// A simple screen to add a new product to the system.
+class AddProductScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBarWidget(),  // Custom app bar
+      drawer: DrawerMenu(),  // Custom drawer
+      body: Center(
+        child: Column(
+          children: [
+            Text("Add New Product"),  // Title
+            // You can add input fields, forms, or logic to handle the product addition here.
+            ElevatedButton(
+              onPressed: () {
+                // Logic to add the product (e.g., saving to the database or going back)
+              },
+              child: Text("Save Product"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// ProductDetailsScreen allows users to view detailed information about a product.
+/// You can add more widgets for editing or viewing the product's settings.
+class ProductDetailsScreen extends StatelessWidget {
+  final String productId;
+
+  const ProductDetailsScreen({super.key, required this.productId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBarWidget(),  // Custom app bar
+      drawer: DrawerMenu(),  // Custom drawer
+      body: Center(
+        child: Column(
+          children: [
+            Text("Product Details for $productId"),  // Display productId dynamically
+            // You can add more widgets here to show details about the product
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to edit screen or other actions
+              },
+              child: Text("Edit Product"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// VehicleDetailsScreen allows users to view and edit details of the vehicle settings.
+class VehicleDetailsScreen extends StatelessWidget {
+  final String productId;
+
+  const VehicleDetailsScreen({super.key, required this.productId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBarWidget(),  // Custom app bar
+      drawer: DrawerMenu(),  // Custom drawer
+      body: Center(
+        child: Column(
+          children: [
+            Text("Vehicle Details for $productId"),  // Display productId dynamically
+            // Add widgets here to adjust shock settings or other vehicle details
+            ElevatedButton(
+              onPressed: () {
+                // Logic to edit vehicle settings
+              },
+              child: Text("Edit Vehicle Settings"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

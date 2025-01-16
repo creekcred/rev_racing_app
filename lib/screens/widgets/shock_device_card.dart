@@ -20,7 +20,7 @@ class ShockDeviceCard extends StatelessWidget {
         title: Text(productName),
         subtitle: Text("Status: $status"),
         trailing: Icon(Icons.arrow_forward),
-        onTap: onTap, // Executes the onTap function passed when the card is tapped
+        onTap: onTap,
       ),
     );
   }

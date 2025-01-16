@@ -1,14 +1,16 @@
-import 'package:flutter/material.dart';
+class VehicleDetailsScreen extends StatelessWidget {
+  final String productId;
 
-class VehicleScreen extends StatelessWidget {
-  const VehicleScreen({super.key});
+  const VehicleDetailsScreen({Key? key, required this.productId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Vehicle")),
+      appBar: AppBar(
+        title: Text("Vehicle Details"),
+      ),
       body: Center(
-        child: Text("Vehicle Content"),
+        child: Text('Product ID: $productId'),
       ),
     );
   }
