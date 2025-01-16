@@ -1,23 +1,26 @@
+import 'package:flutter/material.dart';
+
 class ShockDeviceCard extends StatelessWidget {
-  final String name;
+  final String productName;
   final String status;
   final VoidCallback onTap;
-  
-  ShockDeviceCard({
-    required this.name,
+
+  const ShockDeviceCard({
+    Key? key,
+    required this.productName,
     required this.status,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         leading: Icon(Icons.settings),
-        title: Text(name),
+        title: Text(productName),
         subtitle: Text("Status: $status"),
         trailing: Icon(Icons.arrow_forward),
-        onTap: onTap,
+        onTap: onTap, // Executes the onTap function passed when the card is tapped
       ),
     );
   }
