@@ -1,22 +1,49 @@
+name: rev_racing_app
+description: "A new Flutter project to manage racing products and user settings."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"  # Ensure the SDK version matches your Flutter version
+
 dependencies:
   flutter:
     sdk: flutter
-  async: ^2.12.0  # Update to the latest version
-  boolean_selector: ^2.1.2  # Update to the latest version
-  characters: ^1.4.0  # Update to the latest version
-  clock: ^1.1.2  # Update to the latest version
-  collection: ^1.19.1  # Update to the latest version
-  fake_async: ^1.3.2  # Update to the latest version
-  leak_tracker: ^10.0.8  # Update to the latest version
-  leak_tracker_flutter_testing: ^3.0.9  # Update to the latest version
-  matcher: ^0.12.17  # Update to the latest version
-  material_color_utilities: ^0.12.0  # Update to the latest version
-  meta: ^1.16.0  # Update to the latest version
-  path: ^1.9.1  # Update to the latest version
-  source_span: ^1.10.1  # Update to the latest version
-  stack_trace: ^1.12.1  # Update to the latest version
-  stream_channel: ^2.1.4  # Update to the latest version
-  string_scanner: ^1.4.1  # Update to the latest version
-  term_glyph: ^1.2.2  # Update to the latest version
-  test_api: ^0.7.4  # Update to the latest version
-  vm_service: ^15.0.0  # Update to the latest version
+  async: ^2.11.0  # Update to the latest version
+  boolean_selector: ^2.1.1  # Update to the latest version
+  characters: ^1.3.0  # Update to the latest version
+  clock: ^1.1.1  # Update to the latest version
+  collection: ^1.19.0  # Update to the latest version
+  fake_async: ^1.3.1  # Update to the latest version
+  leak_tracker: ^10.0.7  # Update to the latest version
+  leak_tracker_flutter_testing: ^3.0.8  # Update to the latest version
+  matcher: ^0.12.16+1  # Update to the latest version
+  material_color_utilities: ^0.11.1  # Update to the latest version
+  meta: ^1.15.0  # Update to the latest version
+  path: ^1.9.0  # Update to the latest version
+  source_span: ^1.10.0  # Update to the latest version
+  stack_trace: ^1.12.0  # Update to the latest version
+  stream_channel: ^2.1.2  # Update to the latest version
+  string_scanner: ^1.3.0  # Update to the latest version
+  term_glyph: ^1.2.1  # Update to the latest version
+  test_api: ^0.7.3  # Update to the latest version
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Linting package to follow best practices
+  flutter_lints: ^1.0.0
+
+flutter:
+  # Enable the use of material design icons
+  uses-material-design: true
+
+  # Specify assets to be bundled with the app
+  assets:
+    - assets/images/  # Example for image assets like splash screen logos
+
+  # The following section is used for splash screen setup
+
